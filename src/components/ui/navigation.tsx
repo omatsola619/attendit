@@ -22,8 +22,8 @@ export const NavLink = ({ href, children, className }: NavLinkProps) => {
     <Link
       to={href}
       className={cn(
-        "text-sm font-medium transition-smooth hover:text-primary",
-        isActive ? "text-primary" : "text-muted-foreground",
+        "text-sm font-medium transition-smooth hover:text-foreground px-2 py-1 rounded",
+        isActive ? "text-foreground bg-accent" : "text-muted-foreground hover:bg-accent/50",
         className
       )}
     >
@@ -84,16 +84,16 @@ export const Header = ({ showAuth = true }: HeaderProps) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <Container>
-        <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center gap-8">
+        <div className="flex h-14 items-center justify-between">
+          <div className="flex items-center gap-6">
             <Link to="/" className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-primary"></div>
-              <span className="text-xl font-bold">PosterForge</span>
+              <div className="h-6 w-6 rounded bg-primary"></div>
+              <span className="text-lg font-semibold text-notion-heading">attendit.live</span>
             </Link>
             
-            <nav className="hidden md:flex items-center gap-6">
+            <nav className="hidden md:flex items-center gap-4">
               <NavLink href="/">Home</NavLink>
               <NavLink href="/features">Features</NavLink>
               <NavLink href="/pricing">Pricing</NavLink>
@@ -118,7 +118,8 @@ export const Header = ({ showAuth = true }: HeaderProps) => {
                   <div className="relative" ref={userMenuRef}>
                     <Button
                       variant="ghost"
-                      className="flex items-center gap-2"
+                      size="sm"
+                      className="flex items-center gap-2 h-8 px-2 hover:bg-accent"
                       onClick={() => setShowUserMenu(!showUserMenu)}
                     >
                       <UserAvatar 
@@ -126,25 +127,25 @@ export const Header = ({ showAuth = true }: HeaderProps) => {
                         email={user.email} 
                         size="sm" 
                       />
-                      <span className="hidden sm:inline">
+                      <span className="hidden sm:inline text-sm text-notion-body">
                         {user.user_metadata?.name || user.email?.split('@')[0]}
                       </span>
-                      <ChevronDown className="h-4 w-4" />
                     </Button>
                     
                     {showUserMenu && (
-                      <div className="absolute right-0 top-full mt-2 w-48 bg-background border border-border rounded-lg shadow-lg py-2 z-50">
+                      <div className="absolute right-0 top-full mt-1 w-44 bg-background border border-border rounded shadow-md py-1 z-50">
                         <Link
                           to="/dashboard"
-                          className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted transition-smooth"
+                          className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent transition-smooth text-notion-body"
                           onClick={() => setShowUserMenu(false)}
                         >
                           <Settings className="h-4 w-4" />
                           Dashboard
                         </Link>
+                        <hr className="my-1 border-border" />
                         <button
                           onClick={handleLogout}
-                          className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted transition-smooth w-full text-left text-red-600"
+                          className="flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent transition-smooth w-full text-left text-notion-body"
                         >
                           <LogOut className="h-4 w-4" />
                           Sign Out
@@ -154,10 +155,10 @@ export const Header = ({ showAuth = true }: HeaderProps) => {
                   </div>
                 ) : (
                   <>
-                    <Button variant="ghost" asChild>
+                    <Button variant="ghost" size="sm" asChild className="text-notion-body">
                       <Link to="/login">Sign In</Link>
                     </Button>
-                    <Button variant="hero" asChild>
+                    <Button size="sm" asChild className="text-notion-body">
                       <Link to="/signup">Get Started</Link>
                     </Button>
                   </>
@@ -251,10 +252,10 @@ export const Footer = () => {
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <div className="h-8 w-8 rounded-lg bg-gradient-primary"></div>
-                <span className="text-xl font-bold">PosterForge</span>
+                <span className="text-xl font-bold">attendit.live</span>
               </div>
               <p className="text-muted-foreground max-w-md">
-                Create personalized posters and banners with ease. Upload your design, let others add their photos, and share beautiful memories.
+                Create engaging event attendance posters. Upload your event banner, let attendees add their photos, and showcase who's attending your events.
               </p>
             </div>
             
@@ -279,7 +280,7 @@ export const Footer = () => {
           
           <div className="mt-12 pt-8 border-t border-border">
             <p className="text-center text-sm text-muted-foreground">
-              © 2024 PosterForge. All rights reserved.
+              © 2024 attendit.live. All rights reserved.
             </p>
           </div>
         </div>

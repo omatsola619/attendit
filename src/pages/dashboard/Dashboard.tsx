@@ -61,168 +61,187 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <div className="p-4 sm:p-6 lg:p-8">
-        <Container>
-          <div className="space-y-6 sm:space-y-8">
+      <div className="p-6 lg:p-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="space-y-8">
             {/* Header */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold">
-                  Welcome back, {user?.user_metadata?.name?.split(' ')[0] || user?.email?.split('@')[0] || 'there'}!
+                <h1 className="text-notion-title text-2xl sm:text-3xl">
+                  Welcome back, {user?.user_metadata?.name?.split(' ')[0] || user?.email?.split('@')[0] || 'there'}
                 </h1>
-                <p className="text-muted-foreground mt-1 sm:mt-2 text-sm sm:text-base">
+                <p className="text-muted-foreground mt-2 text-notion-body">
                   Ready to create some amazing collaborative posters?
                 </p>
               </div>
-              <Button variant="hero" size="lg" className="w-full sm:w-auto" asChild>
+              <Button size="sm" className="w-full sm:w-auto" asChild>
                 <Link to="/dashboard/create">
-                  <Plus className="mr-2 h-5 w-5" />
-                  Create New Campaign
+                  <Plus className="mr-2 h-4 w-4" />
+                  New Campaign
                 </Link>
               </Button>
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Campaigns</CardTitle>
-                  <Image className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{loading ? "..." : campaigns.length}</div>
-                  <p className="text-xs text-muted-foreground">
-                    {activeCampaigns} active campaigns
-                  </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <Card className="border-border/50 shadow-sm">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 rounded bg-accent">
+                      <Image className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                    <div>
+                      <p className="text-notion-caption text-muted-foreground">Total Campaigns</p>
+                      <p className="text-2xl font-semibold text-notion-heading">{loading ? "..." : campaigns.length}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {activeCampaigns} active
+                      </p>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
               
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Views</CardTitle>
-                  <BarChart3 className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{loading ? "..." : totalViews.toLocaleString()}</div>
-                  <p className="text-xs text-muted-foreground">
-                    Across all campaigns
-                  </p>
+              <Card className="border-border/50 shadow-sm">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 rounded bg-accent">
+                      <BarChart3 className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                    <div>
+                      <p className="text-notion-caption text-muted-foreground">Total Views</p>
+                      <p className="text-2xl font-semibold text-notion-heading">{loading ? "..." : totalViews.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground">
+                        All campaigns
+                      </p>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
               
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Downloads</CardTitle>
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{loading ? "..." : totalDownloads.toLocaleString()}</div>
-                  <p className="text-xs text-muted-foreground">
-                    Total poster downloads
-                  </p>
+              <Card className="border-border/50 shadow-sm">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 rounded bg-accent">
+                      <Users className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                    <div>
+                      <p className="text-notion-caption text-muted-foreground">Downloads</p>
+                      <p className="text-2xl font-semibold text-notion-heading">{loading ? "..." : totalDownloads.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground">
+                        Total downloads
+                      </p>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>
 
             {/* Quick Actions */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-              <Card className="hover:shadow-lg transition-smooth">
-                <CardHeader>
-                  <CardTitle>Create Your First Campaign</CardTitle>
-                  <CardDescription>
-                    Start by uploading a banner and setting up photo placeholders
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button variant="outline" size="lg" asChild className="w-full">
-                    <Link to="/dashboard/create">
-                      <Plus className="mr-2 h-4 w-4" />
-                      Get Started
-                    </Link>
-                  </Button>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <Card className="border-border/50 shadow-sm hover:shadow-md transition-smooth">
+                <CardContent className="p-6">
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-notion-heading font-semibold">Create Your First Campaign</h3>
+                      <p className="text-muted-foreground text-notion-body mt-1">
+                        Start by uploading a banner and setting up photo placeholders
+                      </p>
+                    </div>
+                    <Button variant="outline" size="sm" asChild className="w-full">
+                      <Link to="/dashboard/create">
+                        <Plus className="mr-2 h-4 w-4" />
+                        Get Started
+                      </Link>
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
               
-              <Card className="hover:shadow-lg transition-smooth">
-                <CardHeader>
-                  <CardTitle>Manage Campaigns</CardTitle>
-                  <CardDescription>
-                    View, edit, and share your existing campaigns
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button variant="outline" size="lg" asChild className="w-full">
-                    <Link to="/dashboard/campaigns">
-                      <Image className="mr-2 h-4 w-4" />
-                      View Campaigns
-                    </Link>
-                  </Button>
+              <Card className="border-border/50 shadow-sm hover:shadow-md transition-smooth">
+                <CardContent className="p-6">
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-notion-heading font-semibold">Manage Campaigns</h3>
+                      <p className="text-muted-foreground text-notion-body mt-1">
+                        View, edit, and share your existing campaigns
+                      </p>
+                    </div>
+                    <Button variant="outline" size="sm" asChild className="w-full">
+                      <Link to="/dashboard/campaigns">
+                        <Image className="mr-2 h-4 w-4" />
+                        View Campaigns
+                      </Link>
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </div>
 
             {/* Recent Activity */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Campaigns</CardTitle>
-                <CardDescription>
-                  Your latest created campaigns
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {loading ? (
-                    <div className="text-center py-4">
-                      <p className="text-muted-foreground">Loading campaigns...</p>
-                    </div>
-                  ) : campaigns.length === 0 ? (
-                    <div className="text-center py-4">
-                      <p className="text-muted-foreground">No campaigns created yet</p>
-                    </div>
-                  ) : (
-                    campaigns.slice(0, 3).map((campaign) => (
-                      <div key={campaign.id} className="flex items-center justify-between py-2 border-b last:border-0">
-                        <div className="flex items-center gap-3">
-                          <img 
-                            src={campaign.banner_url} 
-                            alt={campaign.title}
-                            className="w-10 h-10 rounded object-cover"
-                          />
-                          <div>
-                            <p className="font-medium">{campaign.title}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {campaign.views} views • {campaign.downloads} downloads
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <span className="text-sm text-muted-foreground">
-                            {new Date(campaign.created_at).toLocaleDateString()}
-                          </span>
-                          <div className="mt-1">
-                            <Badge variant={campaign.status === "active" ? "default" : "secondary"} className="text-xs">
-                              {campaign.status}
-                            </Badge>
-                          </div>
-                        </div>
+            <Card className="border-border/50 shadow-sm">
+              <CardContent className="p-6">
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-notion-heading font-semibold">Recent Campaigns</h3>
+                    <p className="text-muted-foreground text-notion-body mt-1">
+                      Your latest created campaigns
+                    </p>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    {loading ? (
+                      <div className="text-center py-8">
+                        <p className="text-muted-foreground text-notion-body">Loading campaigns...</p>
                       </div>
-                    ))
-                  )}
-                  {campaigns.length > 3 && (
-                    <div className="pt-2">
-                      <Button variant="outline" size="sm" asChild className="w-full">
-                        <Link to="/dashboard/campaigns">
-                          View All Campaigns
-                        </Link>
-                      </Button>
-                    </div>
-                  )}
+                    ) : campaigns.length === 0 ? (
+                      <div className="text-center py-8">
+                        <p className="text-muted-foreground text-notion-body">No campaigns created yet</p>
+                      </div>
+                    ) : (
+                      campaigns.slice(0, 3).map((campaign) => (
+                        <div key={campaign.id} className="flex items-center justify-between p-3 rounded hover:bg-accent transition-smooth">
+                          <div className="flex items-center gap-3">
+                            <img 
+                              src={campaign.banner_url} 
+                              alt={campaign.title}
+                              className="w-10 h-10 rounded object-cover border border-border"
+                            />
+                            <div>
+                              <p className="text-notion-body font-medium">{campaign.title}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {campaign.views} views • {campaign.downloads} downloads
+                              </p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <span className="text-xs text-muted-foreground">
+                              {new Date(campaign.created_at).toLocaleDateString()}
+                            </span>
+                            <div className="mt-1">
+                              <Badge variant={campaign.status === "active" ? "default" : "secondary"} className="text-xs">
+                                {campaign.status}
+                              </Badge>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                    {campaigns.length > 3 && (
+                      <div className="pt-2 border-t border-border">
+                        <Button variant="ghost" size="sm" asChild className="w-full mt-2">
+                          <Link to="/dashboard/campaigns">
+                            View All Campaigns
+                          </Link>
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </CardContent>
             </Card>
 
           </div>
-        </Container>
+        </div>
       </div>
     </DashboardLayout>
   );

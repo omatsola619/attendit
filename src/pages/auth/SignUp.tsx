@@ -60,7 +60,7 @@ const SignUp = () => {
           <CardHeader className="text-center pb-6">
             <div className="flex items-center justify-center gap-2 mb-4">
               <div className="h-8 w-8 rounded-lg bg-gradient-primary"></div>
-              <span className="text-xl font-bold">PosterForge</span>
+              <span className="text-xl font-bold">attendit.live</span>
             </div>
             <CardTitle className="text-xl sm:text-2xl">Create your account</CardTitle>
             <CardDescription className="text-sm sm:text-base">

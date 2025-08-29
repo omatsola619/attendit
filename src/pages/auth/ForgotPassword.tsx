@@ -26,7 +26,7 @@ const ForgotPassword = () => {
           <CardHeader className="text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
               <div className="h-8 w-8 rounded-lg bg-gradient-primary"></div>
-              <span className="text-xl font-bold">PosterForge</span>
+              <span className="text-xl font-bold">attendit.live</span>
             </div>
             <CardTitle>
               {isSubmitted ? "Check your email" : "Forgot your password?"}

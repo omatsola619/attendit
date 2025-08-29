@@ -15,70 +15,68 @@ const Index = () => {
       <Header />
       
       {/* Hero Section */}
-      <Section variant="gradient" className="pt-16 sm:pt-20 pb-20 sm:pb-32">
+      <Section className="pt-20 sm:pt-24 pb-20 sm:pb-32">
         <Container>
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="space-y-6 lg:space-y-8 text-center lg:text-left">
-              <div className="space-y-4">
-                <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight">
-                  Create{" "}
-                  <span className="bg-gradient-primary bg-clip-text text-transparent">
-                    Personalized
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="space-y-8 text-center lg:text-left">
+              <div className="space-y-6">
+                <h1 className="text-notion-title text-4xl sm:text-5xl lg:text-6xl leading-tight">
+                  Show Who's{" "}
+                  <span className="text-primary">
+                    Attending
                   </span>{" "}
-                  Posters Together
+                  Your Events
                 </h1>
-                <p className="text-lg sm:text-xl text-muted-foreground max-w-lg mx-auto lg:mx-0">
-                  Upload your banner design, set placeholders for photos, and let others create 
-                  personalized versions with their own images. Perfect for events, teams, and communities.
+                <p className="text-notion-body text-lg text-muted-foreground max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                  Create engaging event posters where attendees can add their photos to show participation. 
+                  Perfect for conferences, meetups, parties, and community events.
                 </p>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
                 {user ? (
-                  <Button variant="hero" size="lg" className="w-full sm:w-auto" asChild>
+                  <Button size="default" className="w-full sm:w-auto" asChild>
                     <Link to="/dashboard/create">
                       Create New Campaign
-                      <ArrowRight className="ml-2 h-5 w-5" />
+                      <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
                 ) : (
                   <>
-                    <Button variant="hero" size="lg" className="w-full sm:w-auto" asChild>
+                    <Button size="default" className="w-full sm:w-auto" asChild>
                       <Link to="/signup">
                         Get Started Free
-                        <ArrowRight className="ml-2 h-5 w-5" />
+                        <ArrowRight className="ml-2 h-4 w-4" />
                       </Link>
                     </Button>
-                    <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
+                    <Button variant="outline" size="default" className="w-full sm:w-auto" asChild>
                       <Link to="/login">Sign In</Link>
                     </Button>
                   </>
                 )}
               </div>
               
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-6 text-sm text-muted-foreground">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span>Free to start</span>
+                  <Star className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-notion-body">Free to start</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4" />
-                  <span className="hidden sm:inline">Unlimited collaborators</span>
-                  <span className="sm:hidden">Unlimited users</span>
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-notion-body">Unlimited attendees</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Zap className="h-4 w-4" />
-                  <span>Instant sharing</span>
+                  <Zap className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-notion-body">Instant sharing</span>
                 </div>
               </div>
             </div>
             
             <div className="relative order-first lg:order-last">
-              <div className="absolute inset-0 bg-gradient-primary opacity-20 blur-3xl rounded-full"></div>
               <img 
                 src={heroImage} 
-                alt="PosterForge hero showcase" 
-                className="relative rounded-2xl shadow-2xl border border-border w-full h-auto"
+                alt="Event attendee collaboration on attendit.live"
+                className="w-full h-auto rounded border border-border shadow-sm"
               />
             </div>
           </div>
@@ -93,7 +91,7 @@ const Index = () => {
               Three Simple Steps
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Create collaborative posters in minutes, not hours
+              Create event attendance posters in minutes, not hours
             </p>
           </div>
           
@@ -103,9 +101,9 @@ const Index = () => {
                 <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-primary flex items-center justify-center">
                   <Upload className="h-8 w-8 text-primary-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Upload Your Banner</h3>
+                <h3 className="text-xl font-semibold mb-3">Upload Event Banner</h3>
                 <p className="text-muted-foreground">
-                  Start by uploading your poster or banner design. Any image format works perfectly.
+                  Start by uploading your event poster or banner design. Any image format works perfectly.
                 </p>
               </CardContent>
             </Card>
@@ -115,9 +113,9 @@ const Index = () => {
                 <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-primary flex items-center justify-center">
                   <Settings className="h-8 w-8 text-primary-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Set Photo Placeholder</h3>
+                <h3 className="text-xl font-semibold mb-3">Set Attendee Photo Area</h3>
                 <p className="text-muted-foreground">
-                  Define where and how user photos should appear on your banner with our intuitive editor.
+                  Define where and how attendee photos should appear on your banner with our intuitive editor.
                 </p>
               </CardContent>
             </Card>
@@ -127,9 +125,9 @@ const Index = () => {
                 <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-primary flex items-center justify-center">
                   <Share2 className="h-8 w-8 text-primary-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Share & Collaborate</h3>
+                <h3 className="text-xl font-semibold mb-3">Share with Attendees</h3>
                 <p className="text-muted-foreground">
-                  Share your campaign link and let others create personalized versions with their photos.
+                  Share your event link and let attendees add their photos to show they're coming.
                 </p>
               </CardContent>
             </Card>
@@ -195,19 +193,19 @@ const Index = () => {
               Ready to Get Started?
             </h2>
             <p className="text-lg sm:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto">
-              Join thousands of creators making beautiful collaborative posters
+              Join thousands of event organizers creating engaging attendance posters
             </p>
             {user ? (
               <Button variant="hero" size="xl" className="w-full sm:w-auto" asChild>
                 <Link to="/dashboard/create">
-                  Create Your First Campaign
+                  Create Your First Event
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             ) : (
               <Button variant="hero" size="xl" className="w-full sm:w-auto" asChild>
                 <Link to="/signup">
-                  Create Your First Campaign
+                  Create Your First Event
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>

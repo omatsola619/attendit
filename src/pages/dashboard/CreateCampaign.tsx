@@ -56,42 +56,59 @@ const CreateCampaign = () => {
       const { naturalWidth, naturalHeight } = imageRef.current;
       setImageDimensions({ width: naturalWidth, height: naturalHeight });
       
-      // Reset placeholder to center with reasonable size
-      const centerX = Math.max(50, naturalWidth / 2 - 100);
-      const centerY = Math.max(50, naturalHeight / 2 - 100);
+      // Calculate reasonable placeholder size (20% of image dimensions, min 100px, max 300px)
+      const placeholderSize = Math.min(300, Math.max(100, Math.min(naturalWidth, naturalHeight) * 0.2));
+      
+      // Center the placeholder
+      const centerX = Math.max(50, naturalWidth / 2 - placeholderSize / 2);
+      const centerY = Math.max(50, naturalHeight / 2 - placeholderSize / 2);
+      
       setPlaceholderBox(prev => ({
         ...prev,
-        x: centerX,
-        y: centerY,
-        width: Math.min(200, naturalWidth * 0.3),
-        height: Math.min(200, naturalHeight * 0.3)
+        x: Math.round(centerX),
+        y: Math.round(centerY),
+        width: Math.round(placeholderSize),
+        height: Math.round(placeholderSize)
       }));
     }
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  // Handle both mouse and touch events
+  const handlePointerDown = (e: React.MouseEvent | React.TouchEvent) => {
     if (!previewRef.current || !imageDimensions) return;
+    
+    e.preventDefault();
     
     const rect = previewRef.current.getBoundingClientRect();
     const scaleX = imageDimensions.width / rect.width;
     const scaleY = imageDimensions.height / rect.height;
     
-    const offsetX = e.clientX - rect.left - (placeholderBox.x / scaleX);
-    const offsetY = e.clientY - rect.top - (placeholderBox.y / scaleY);
+    // Get client coordinates from mouse or touch event
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    
+    const offsetX = clientX - rect.left - (placeholderBox.x / scaleX);
+    const offsetY = clientY - rect.top - (placeholderBox.y / scaleY);
     
     setIsDragging(true);
     setDragOffset({ x: offsetX, y: offsetY });
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handlePointerMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging || !previewRef.current || !imageDimensions) return;
+    
+    e.preventDefault();
     
     const rect = previewRef.current.getBoundingClientRect();
     const scaleX = imageDimensions.width / rect.width;
     const scaleY = imageDimensions.height / rect.height;
     
-    const newX = (e.clientX - rect.left - dragOffset.x) * scaleX;
-    const newY = (e.clientY - rect.top - dragOffset.y) * scaleY;
+    // Get client coordinates from mouse or touch event
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    
+    const newX = (clientX - rect.left - dragOffset.x) * scaleX;
+    const newY = (clientY - rect.top - dragOffset.y) * scaleY;
     
     // Constrain to bounds
     const constrainedX = Math.max(0, Math.min(imageDimensions.width - placeholderBox.width, newX));
@@ -104,7 +121,7 @@ const CreateCampaign = () => {
     }));
   };
 
-  const handleMouseUp = () => {
+  const handlePointerUp = () => {
     setIsDragging(false);
   };
 
@@ -139,14 +156,19 @@ const CreateCampaign = () => {
 
   const resetPlaceholder = () => {
     if (imageDimensions) {
-      const centerX = Math.max(50, imageDimensions.width / 2 - 100);
-      const centerY = Math.max(50, imageDimensions.height / 2 - 100);
+      // Calculate reasonable placeholder size (20% of image dimensions, min 100px, max 300px)
+      const placeholderSize = Math.min(300, Math.max(100, Math.min(imageDimensions.width, imageDimensions.height) * 0.2));
+      
+      // Center the placeholder
+      const centerX = Math.max(50, imageDimensions.width / 2 - placeholderSize / 2);
+      const centerY = Math.max(50, imageDimensions.height / 2 - placeholderSize / 2);
+      
       setPlaceholderBox(prev => ({
         ...prev,
-        x: centerX,
-        y: centerY,
-        width: Math.min(200, imageDimensions.width * 0.3),
-        height: Math.min(200, imageDimensions.height * 0.3)
+        x: Math.round(centerX),
+        y: Math.round(centerY),
+        width: Math.round(placeholderSize),
+        height: Math.round(placeholderSize)
       }));
     }
   };
@@ -226,9 +248,11 @@ const CreateCampaign = () => {
     }
     
     return {
-      width: `${width}px`,
-      height: `${height}px`,
-      maxWidth: '100%'
+      aspectRatio: `${imageDimensions.width}/${imageDimensions.height}`,
+      width: "100%",
+      height: "auto",
+      minHeight: "200px",
+      maxHeight: "60vh"
     };
   };
 
@@ -587,11 +611,13 @@ const CreateCampaign = () => {
                   <CardContent className="p-4 sm:p-6">
                     <div 
                       ref={previewRef}
-                      className="relative bg-muted rounded-lg overflow-hidden mx-auto" 
+                      className="relative bg-muted rounded-lg overflow-hidden mx-auto touch-manipulation select-none" 
                       style={getPreviewStyle()}
-                      onMouseMove={handleMouseMove}
-                      onMouseUp={handleMouseUp}
-                      onMouseLeave={handleMouseUp}
+                      onMouseMove={handlePointerMove}
+                      onMouseUp={handlePointerUp}
+                      onMouseLeave={handlePointerUp}
+                      onTouchMove={handlePointerMove}
+                      onTouchEnd={handlePointerUp}
                     >
                       {previewUrl ? (
                         <img 
@@ -613,28 +639,39 @@ const CreateCampaign = () => {
                       {/* Placeholder Box Overlay */}
                       {previewUrl && imageDimensions && (
                         <div
-                          className={`absolute border-2 border-dashed border-primary bg-primary/20 cursor-move ${
+                          className={`absolute border-2 border-dashed border-primary bg-primary/20 touch-manipulation select-none ${
+                            placeholderBox.shape === 'circle' ? 'rounded-full' : 'rounded-lg'
+                          } ${
                             isDragging ? 'cursor-grabbing' : 'cursor-grab'
                           }`}
                           style={getPlaceholderStyle()}
-                          onMouseDown={handleMouseDown}
+                          onMouseDown={handlePointerDown}
+                          onTouchStart={handlePointerDown}
                         >
-                          <div className="w-full h-full flex items-center justify-center text-xs text-primary font-medium">
-                            Photo Placeholder
+                          <div className="w-full h-full flex items-center justify-center text-xs text-primary font-medium pointer-events-none">
+                            <div className="text-center">
+                              <div className="mb-1">📷</div>
+                              <div>{placeholderBox.shape === 'circle' ? 'Photo Circle' : 'Photo Area'}</div>
+                              <div className="text-[10px] opacity-75 mt-1">Drag to move</div>
+                            </div>
                           </div>
                         </div>
                       )}
                     </div>
                     
-                    {/* Image Info */}
+                    {/* Image Info & Instructions */}
                     {imageDimensions && (
-                      <div className="mt-4 p-3 bg-muted rounded-lg text-center">
-                        <p className="text-sm text-muted-foreground">
-                          Original: {imageDimensions.width} × {imageDimensions.height}px
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Drag the placeholder box to position it, or use the controls above
-                        </p>
+                      <div className="mt-4 space-y-3">
+                        <div className="p-3 bg-muted rounded-lg text-center">
+                          <p className="text-sm text-muted-foreground">
+                            Original: {imageDimensions.width} × {imageDimensions.height}px
+                          </p>
+                        </div>
+                        <div className="p-3 bg-blue-50 dark:bg-blue-950 rounded-lg text-center">
+                          <p className="text-sm text-blue-600 dark:text-blue-400">
+                            💡 <span className="font-medium">Mobile Tip:</span> Touch and drag the photo area to move it around
+                          </p>
+                        </div>
                       </div>
                     )}
                   </CardContent>
